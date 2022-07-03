@@ -9,8 +9,8 @@ public interface UserService {
     void createAUser(String name);
     void createADiary(String diaryName, String userId);
     void deleteADiary(String userId, Diary diaryId);
-    void createAnEntryInADiary(Entry entryId, Diary diaryId);
-    void deleteAnEntryInADiary(Entry entryId, Diary diaryId);
+    void createAnEntryInADiary(Entry entry, Diary diaryId, String userId);
+    void deleteAnEntryInADiary(Entry entryId, Diary diaryId, String userId);
     void updateADiary(Diary diary);
     void updateAnEntryInADiary(Diary diary, Entry entry);
     Diary getAdiary(Diary diaryId);

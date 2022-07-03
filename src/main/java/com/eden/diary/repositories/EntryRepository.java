@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface EntryRepository extends MongoRepository<Entry, String> {
     Optional<Entry> findEntryByTitle(String title);
     List<Entry> findEntriesByBodyContainingIgnoreCase(String phrase);
+    Optional<Entry> findEntryById(Entry id);
 
 
 }
