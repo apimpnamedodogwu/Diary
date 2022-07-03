@@ -47,6 +47,12 @@ public class UserServiceImplementation implements UserService {
         return entryRepository.findEntryById(entryId).orElseThrow(() -> new InvalidIdentityException("Entry with " + entryId + " does not exist!"));
     }
 
+    private Diary validateDiary(Diary diary) {
+        if (diary.getName().isEmpty()) {
+            throw new NullParameterException("This field cannot be empty!");
+        } else return diary;
+    }
+
     @Override
     public void createAUser(String userName) {
         var name = nameValidation(userName);
@@ -100,32 +106,86 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void deleteAnEntryInADiary(Entry entryId, Diary diaryId, String userId) {
+        var entryExists = validateEntryId(entryId);
+        var diaryExists = validateDiaryId(diaryId);
+        var userExists = validateUserId(userId);
+        var listOfDiaries = diaryExists.getEntries();
+        for (int index = 0; index < listOfDiaries.size(); index++) {
+            if (Objects.equals(diaryExists.getId(), diaryId.getId()) && Objects.equals(userExists.getUserId(), userId) && Objects.equals(entryExists.getId(), entryId.getId())) {
+                entryRepository.delete(entryId);
+                return;
+            }
+        }
+        throw new InvalidIdentityException("Entry with " + entryId + " does not exist!");
+    }
+
+    @Override
+    public void updateADiary(Diary diary, Diary diaryId, String userId) {
+        var userExists = validateUserId(userId);
+        var diaryExists = validateDiaryId(diaryId);
+        var listOfUsersDiaries = diaryExists.getEntries();
+        for (int index = 0; index < listOfUsersDiaries.size(); index++) {
+            if (Objects.equals(diaryExists.getId(), diaryId.getId()) && Objects.equals(userExists.getUserId(), userId)) {
+                var userDiary = validateDiary(diary);
+                userDiary.setName(diary.getName());
+                diaryRepository.save(userDiary);
+                return;
+            }
+        }
+        throw new InvalidIdentityException("Diary with " + diaryId + " does not exist!");
 
     }
 
     @Override
-    public void updateADiary(Diary diary) {
+    public void updateAnEntryInADiary(Diary diaryId, Entry entry, String userId) {
+        var userExists = validateUserId(userId);
+        var diaryExists = validateDiaryId(diaryId);
+        var entryExists = validateEntryId(entry);
+        var listOfEntries = diaryExists.getEntries();
+        for (int index = 0; index < listOfEntries.size(); index++) {
+            if (Objects.equals(userExists.getUserId(), userId) && Objects.equals(diaryExists.getId(), diaryId.getId()) && Objects.equals(entryExists.getId(), entry.getId())) {
+                entryExists.setTitle(entry.getTitle());
+                entryExists.setBody(entry.getBody());
+                entryRepository.save(entryExists);
+            }
+        }
 
     }
 
     @Override
-    public void updateAnEntryInADiary(Diary diary, Entry entry) {
-
+    public Diary getAdiary(Diary diaryId, String userId) {
+        var userExists = validateUserId(userId);
+        var diaryExits = validateDiary(diaryId);
+        var listOfDiaries = userExists.getDiaries();
+        for (int index = 0; index < listOfDiaries.size(); index++) {
+            if (Objects.equals(userExists.getUserId(), userId) && Objects.equals(diaryExits.getId(), diaryId.getId())) {
+                return listOfDiaries.get(index);
+            }
+        }
+        throw new InvalidIdentityException("Diary with " + diaryId + " does not exist!");
     }
 
     @Override
-    public Diary getAdiary(Diary diaryId) {
-        return null;
+    public Entry getAnEntryInADiary(Diary diaryId, Entry entryId, String userId) {
+        var userExists = validateUserId(userId);
+        var diaryExists = validateDiaryId(diaryId);
+        var entryExists = validateEntryId(entryId);
+        var listOfEntries = diaryExists.getEntries();
+        for (int index = 0; index < listOfEntries.size(); index++) {
+            if (Objects.equals(userExists.getUserId(), userId) && Objects.equals(diaryExists.getId(), diaryId.getId()) && Objects.equals(entryExists.getId(), entryId.getId())) {
+                return listOfEntries.get(index);
+            }
+        }
+        throw new InvalidIdentityException("Entry with " + entryId + " does not exist!");
     }
 
     @Override
-    public Entry getAnEntryInADiary(Diary diaryId, Entry entryId) {
-        return null;
-    }
-
-    @Override
-    public List<Diary> getAllDiaries() {
-        return null;
+    public List<Diary> getAllDiaries(String userId) {
+        var userExists = validateUserId(userId);
+        if (Objects.equals(userExists.getUserId(), userId)) {
+            return userExists.getDiaries();
+        }
+        throw new InvalidIdentityException("User with " + userId + " does not exist!");
     }
 
 
