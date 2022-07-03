@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface DiaryRepository extends MongoRepository<Diary, String> {
     Optional<Diary> findDiaryByName(String name);
     Optional<Diary> findDiaryById(String id);
+    Optional<Diary> findDiaryById(Diary diaryId);
 }
