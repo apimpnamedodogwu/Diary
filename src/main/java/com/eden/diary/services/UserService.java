@@ -20,7 +20,7 @@ public interface UserService {
 
     void updateAnEntryInADiary(String diaryId, String entryId, String userId, Entry myEntry);
 
-    Diary getAdiary(String diaryId, String userId);
+    Diary getADiary(String diaryId, String userId);
 
     Entry getAnEntryInADiary(String diaryId, String entryId, String userId);
 
