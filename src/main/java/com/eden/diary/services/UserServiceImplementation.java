@@ -85,8 +85,11 @@ public class UserServiceImplementation implements UserService {
         var listOfDiaries = userExists.getDiaries();
         for (int index = 0; index < listOfDiaries.size(); index++) {
             if (Objects.equals(listOfDiaries.get(index).getId(), diaryId)) {
+                var aDiary = listOfDiaries.get(index);
                 var userEntry = validateEntry(entry);
-                entryRepository.save(userEntry);
+                var savedEntry = entryRepository.save(userEntry);
+                aDiary.getEntries().add(savedEntry);
+                diaryRepository.save(aDiary);
                 return;
             }
         }
