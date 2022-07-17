@@ -135,14 +135,15 @@ public class UserServiceImplementation implements UserService {
     public void updateAnEntryInADiary(String diaryId, String entryId, String userId, Entry myEntry) {
         var findUser = validateUserId(userId);
         var userListOfDiaries = findUser.getDiaries();
-        for (Diary adiary : userListOfDiaries) {
-            if (Objects.equals(adiary.getId(), diaryId)) {
-                var userListOfEntries = adiary.getEntries();
+        for (Diary aDiary : userListOfDiaries) {
+            if (Objects.equals(aDiary.getId(), diaryId)) {
+                var userListOfEntries = aDiary.getEntries();
                 for (Entry anEntry : userListOfEntries) {
-                    if (Objects.equals(anEntry.getId(), entryId))
+                    if (Objects.equals(anEntry.getId(), entryId)) {
                         anEntry.setTitle(myEntry.getTitle());
-                    anEntry.setBody(myEntry.getBody());
-                    return;
+                        anEntry.setBody(myEntry.getBody());
+                        return;
+                    }
                 }
                 throw new InvalidIdentityException("Entry with entry id " + entryId + " does not exist!");
             }
@@ -152,12 +153,13 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public Diary getAdiary(String diaryId, String userId) {
+    public Diary getADiary(String diaryId, String userId) {
         var userExists = validateUserId(userId);
         var userDiaries = userExists.getDiaries();
         for (int index = 0; index < userDiaries.size(); index++) {
-            if (Objects.equals(userDiaries.get(index).getId(), diaryId))
+            if (Objects.equals(userDiaries.get(index).getId(), diaryId)) {
                 return userDiaries.get(index);
+            }
         }
         throw new InvalidIdentityException("Diary with diary id " + diaryId + " does not exist!");
     }
@@ -170,8 +172,9 @@ public class UserServiceImplementation implements UserService {
             if (Objects.equals(userDiaries.get(index).getId(), diaryId)) {
                 var userEntries = userDiaries.get(index).getEntries();
                 for (int indexEntry = 0; indexEntry < userEntries.size(); indexEntry++) {
-                    if (Objects.equals(userEntries.get(indexEntry).getId(), entryId))
+                    if (Objects.equals(userEntries.get(indexEntry).getId(), entryId)) {
                         return userEntries.get(indexEntry);
+                    }
                 }
             }
         }

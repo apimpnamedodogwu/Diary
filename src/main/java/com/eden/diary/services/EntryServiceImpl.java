@@ -83,7 +83,6 @@ public class EntryServiceImpl implements EntryService {
 
     }
 
-
     @Override
     public List<Entry> getAllEntries() {
         return entryRepository.findAll();
