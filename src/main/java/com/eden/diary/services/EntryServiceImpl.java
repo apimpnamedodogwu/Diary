@@ -28,7 +28,7 @@ public class EntryServiceImpl implements EntryService {
             throw new IllegalArgumentException("This title " + entry.getTitle() + " already exists!");
         }
         entryRepository.save(entry);
-        return "Saved successfully";
+        return "Saved successfully!";
     }
 
     @Override

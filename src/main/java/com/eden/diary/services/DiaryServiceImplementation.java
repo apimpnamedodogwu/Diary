@@ -20,6 +20,7 @@ public class DiaryServiceImplementation implements DiaryService {
     @Autowired
     EntryRepository entryRepository;
 
+
     @Override
     public void createADiary(String name) {
         nameValidation(name);

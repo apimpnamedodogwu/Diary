@@ -10,19 +10,19 @@ public interface UserService {
 
     void createADiary(String diaryName, String userId);
 
-    void deleteADiary(String userId, Diary diaryId);
+    void deleteADiary(String userId, String diaryId);
 
-    void createAnEntryInADiary(Entry entry, Diary diaryId, String userId);
+    void createAnEntryInADiary(Entry entry, String diaryId, String userId);
 
-    void deleteAnEntryInADiary(Entry entryId, Diary diaryId, String userId);
+    void deleteAnEntryInADiary(String entryId, String diaryId, String userId);
 
-    void updateADiary(Diary diary, Diary diaryId, String userId);
+    void updateADiary(Diary diary, String diaryId, String userId);
 
-    void updateAnEntryInADiary(Diary diary, Entry entry, String userId);
+    void updateAnEntryInADiary(String diaryId, String entryId, String userId, Entry myEntry);
 
-    Diary getAdiary(Diary diaryId, String userId);
+    Diary getAdiary(String diaryId, String userId);
 
-    Entry getAnEntryInADiary(Diary diaryId, Entry entryId, String userId);
+    Entry getAnEntryInADiary(String diaryId, String entryId, String userId);
 
     List<Diary> getAllDiaries(String userId);
 }
